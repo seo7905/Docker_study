@@ -1,0 +1,28 @@
+services:
+  frontend:
+    build:
+      context: .  # Next.js가 있는 루트 디렉토리
+      dockerfile: Dockerfile.next  # Next.js 빌드를 위한 Dockerfile
+    container_name: nextjs-container
+    networks:
+      - sist_net
+    ports:
+      - "3002:3000"  # Next.js는 3000번 포트에서 실행됨
+    volumes:
+      - ./next:/app  # Next.js 소스 코드와 연결
+
+  nginx:
+    build:
+      context: .  # Dockerfile.nginx가 루트 디렉토리에 위치
+      dockerfile: Dockerfile.nginx  # Nginx를 위한 Dockerfile
+    container_name: nginx-container
+    networks:
+      - sist_net
+    ports:
+      - "80:80"  # Nginx가 80번 포트에서 서빙
+    depends_on:
+      - frontend  # Next.js 컨테이너가 먼저 시작되어야 Nginx가 정상적으로 동작
+
+networks:
+  sist_net:
+    driver: bridge

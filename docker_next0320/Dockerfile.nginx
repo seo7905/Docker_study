@@ -1,0 +1,8 @@
+# Nginx 이미지 사용
+FROM nginx:alpine
+
+# 빌드된 Next.js 파일을 Nginx로 복사
+COPY ./out /usr/share/nginx/html
+
+# Nginx가 80번 포트를 통해 서버를 실행하도록 설정
+EXPOSE 80

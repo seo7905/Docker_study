@@ -1,0 +1,17 @@
+# 1. Next.js 빌드를 위한 Node.js 환경
+FROM node:18-alpine as builder
+
+WORKDIR /app
+
+# package.json과 package-lock.json을 복사
+COPY package.json package-lock.json ./
+
+# 의존성 설치
+RUN npm install
+
+# 전체 Next.js 파일 복사
+COPY . /app
+
+# 빌드
+RUN npm run build
+# RUN npm run export  # 정적 파일을 /out에 생성
